@@ -1,0 +1,39 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloud-payment-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.199.202:3306/ckx_cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: beixinyuan2018
+
+mybatis:
+  mapperLocations: classpath:mybatis/mapper/*Mapper.xml
+  type-aliases-package: com.vrv.cloud.model
+
+eureka:
+  client:
+    # 表示是否将自己注册到eureka server 默认为true
+    register-with-eureka: true
+    # 是否从eurekaServer抓取已有的注册信息，默认为true，单节点无所谓，集群必须设置为true，才能配合ribbon使用负载均衡
+    fetch-registry: true
+    service-url:
+      # 单机版
+#      defaultZone: http://localhost:7001/eureka
+      # 集群版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka/
+    # 服务名称修改
+  instance:
+    instance-id: payment8001
+    # 访问路径可以显示ip地址
+    prefer-ip-address: true
+    # 心跳检测与续约时间 -----------（去除eureka的自我保护机制）
+    # 开发设置小些，保证服务关闭后，注册中心能即使剔除
+    # eureka 服务端向客户端发送心跳的时间 单位为（默认为30秒）
+    lease-renewal-interval-in-seconds: 1
+    # eureka 服务端在收到最后一次收到心跳的等待时间上限，单位为秒（默认为90）超时及剔除服务
+    lease-expiration-duration-in-seconds: 2

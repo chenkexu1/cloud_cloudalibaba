@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vrv.cloud.mapper.PaymentMapper">
+    
+    <resultMap type="PaymentModel" id="PaymentResult">
+        <result property="id"    column="id"    />
+        <result property="serial"    column="serial"    />
+    </resultMap>
+
+    <sql id="selectAppDoodVo">
+        select id, serial from payment
+    </sql>
+
+    <insert id="add" parameterType="PaymentModel" useGeneratedKeys="true" keyProperty="id">
+        insert into payment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="serial != null  and serial != ''">serial,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="serial != null  and serial != ''">#{serial},</if>
+        </trim>
+    </insert>
+
+    <select id="selectByID" parameterType="Integer" resultMap="PaymentResult">
+        <include refid="selectAppDoodVo"/>
+        where id = #{id}
+    </select>
+        
+
+
+</mapper>

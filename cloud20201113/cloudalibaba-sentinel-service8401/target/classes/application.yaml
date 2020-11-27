@@ -1,0 +1,22 @@
+server:
+  port: 8401
+
+spring:
+  application:
+    name: sentinel-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        # 默认8719,假设被占用，会自动加1，递增
+        port: 8719
+        # sentinel 地址
+        dashboard: 127.0.0.1:8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

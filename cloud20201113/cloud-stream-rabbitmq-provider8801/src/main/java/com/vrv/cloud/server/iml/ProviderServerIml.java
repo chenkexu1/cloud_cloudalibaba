@@ -1,0 +1,30 @@
+package com.vrv.cloud.server.iml;
+
+import cn.hutool.core.lang.UUID;
+import com.vrv.cloud.server.ProviderServer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Service;
+
+/**
+ * @author chenkexu
+ * @date 2020/11/23
+ */
+@EnableBinding(Source.class) //定义消息的推送管道
+public class ProviderServerIml implements ProviderServer {
+
+    // 消息推送管道
+    @Autowired
+    private MessageChannel output;
+
+    @Override
+    public String sent() {
+        String uuid = UUID.randomUUID().toString();
+        output.send(MessageBuilder.withPayload(uuid).build());
+        System.out.println(uuid);
+        return null;
+    }
+}
